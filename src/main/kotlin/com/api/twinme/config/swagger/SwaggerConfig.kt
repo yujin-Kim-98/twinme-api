@@ -43,7 +43,7 @@ class SwaggerConfig(
             ResponseEntity::class.java
         )
         .select()
-        .apis(RequestHandlerSelectors.basePackage("com.api.twinme.rest"))
+        .apis(RequestHandlerSelectors.basePackage("com.api.twinme"))
         .paths(PathSelectors.regex("/api/v1/.*"))
         .build()
         .apiInfo(apiInfo())

@@ -1,7 +1,7 @@
 package com.api.twinme.config.security.jwt
 
 import com.api.twinme.exception.NotFoundUserException
-import com.api.twinme.repository.UserRepository
+import com.api.twinme.auth.repository.UserRepository
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.stereotype.Service

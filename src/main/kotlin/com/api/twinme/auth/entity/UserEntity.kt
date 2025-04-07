@@ -1,5 +1,6 @@
 package com.api.twinme.entity
 
+import com.api.twinme.auth.domain.User
 import com.api.twinme.exception.NotFoundProviderException
 import javax.persistence.*
 
@@ -9,7 +10,7 @@ class UserEntity(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long = -1,
+    val id: Long?,
 
     @Enumerated(EnumType.STRING)
     val provider: Provider,
@@ -26,7 +27,19 @@ class UserEntity(
 
     val age: Int,
 
-): AbstractBaseAuditEntity()
+): AbstractBaseAuditEntity() {
+
+    fun toModel(): User = User(
+        id = this.id,
+        provider = this.provider,
+        encryptedSub = this.encryptedSub,
+        hashedSub = this.hashedSub,
+        email = this.email,
+        nickname = this.nickname,
+        age = this.age
+    )
+
+}
 
 enum class Provider {
     GOOGLE;

@@ -1,10 +1,12 @@
-package com.api.twinme.config.security.jwt
+package com.api.twinme.auth.utils
 
+import com.api.twinme.config.security.jwt.JwtUser
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.stereotype.Component
 import java.util.*
 import java.util.function.Function
@@ -34,7 +36,7 @@ class JwtTokenUtils(
         return claimsResolver.apply(claims)
     }
 
-    private fun getAllClaimsFromToken(
+    fun getAllClaimsFromToken(
         token: String
     ): Claims = Jwts.parser()
         .setSigningKey(secretKey)
@@ -67,22 +69,25 @@ class JwtTokenUtils(
     ): Date = getClaimFromToken(token, Function { obj: Claims -> obj.expiration })
 
     fun generateToken(
-        userDetails: UserDetails
+        username: String,
+        jwtUser: JwtUser
     ): String {
         val claims = mutableMapOf<String, Any>()
-        claims["authority"] = userDetails.authorities
-        return doGenerateToken(claims, userDetails.username)
+        claims["authority"] = jwtUser.authorities
+        return doGenerateToken(claims, jwtUser.username, jwtUser.getId())
     }
 
     private fun doGenerateToken(
         claims: Map<String, Any>,
-        subject: String
+        subject: String,
+        userId: Long
     ): String {
         val now = Date()
         val expirationDate = calculateTokenExpirationDate(now)
         return Jwts.builder()
             .setClaims(claims)
             .setSubject(subject)
+            .setId(userId.toString())
             .setIssuedAt(now)
             .setExpiration(expirationDate)
             .signWith(SignatureAlgorithm.HS512, secretKey)
@@ -90,22 +95,25 @@ class JwtTokenUtils(
     }
 
     fun generateRefreshToken(
-        userDetails: UserDetails
+        username: String,
+        jwtUser: JwtUser
     ): String {
         val claims = mutableMapOf<String, Any>()
-        claims["authority"] = userDetails.authorities
-        return doGenerateRefreshToken(claims, userDetails.username)
+        claims["authority"] = jwtUser.authorities
+        return doGenerateRefreshToken(claims, jwtUser.username, jwtUser.getId())
     }
 
     private fun doGenerateRefreshToken(
         claims: Map<String, Any>,
-        subject: String
+        subject: String,
+        userId: Long
     ): String {
         val now = Date()
         val expirationDate = calculateRefreshTokenExpirationDate(now)
         return Jwts.builder()
             .setClaims(claims)
             .setSubject(subject)
+            .setId(userId.toString())
             .setIssuedAt(now)
             .setExpiration(expirationDate)
             .signWith(SignatureAlgorithm.HS512, secretKey)

@@ -13,6 +13,8 @@ plugins {
     kotlin("kapt") version "1.7.10"
 }
 
+extra["kotlin-coroutines.version"] = "1.6.0"
+
 group = "com.api"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_1_8
@@ -37,6 +39,8 @@ dependencies {
     implementation("io.jsonwebtoken:jjwt:0.9.1")
     implementation("io.springfox:springfox-swagger2:2.9.2")
     implementation("io.springfox:springfox-swagger-ui:2.9.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
     api("com.google.code.gson:gson:2.8.5")
 
@@ -46,6 +50,10 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+    testImplementation("io.kotest:kotest-runner-junit5:5.4.2")
+    testImplementation("io.kotest:kotest-assertions-core:5.4.2")
+    testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.2")
 }
 
 springBoot.buildInfo {

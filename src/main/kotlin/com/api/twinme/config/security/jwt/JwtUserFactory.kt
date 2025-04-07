@@ -1,16 +1,16 @@
 package com.api.twinme.config.security.jwt
 
-import com.api.twinme.entity.UserEntity
+import com.api.twinme.auth.domain.User
 import org.springframework.security.core.GrantedAuthority
 
 class JwtUserFactory {
 
     companion object {
         fun create(
-            user: UserEntity
+            user: User
         ): JwtUser {
             return JwtUser(
-                id = user.id,
+                id = user.id!!,
                 sub = user.encryptedSub,
                 nickname = user.nickname,
                 email = user.email,

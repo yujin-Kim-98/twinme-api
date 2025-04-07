@@ -1,7 +1,7 @@
 package com.api.twinme.config.web
 
-import com.api.twinme.config.security.jwt.JwtTokenUtils
-import com.api.twinme.repository.UserRepository
+import com.api.twinme.auth.utils.JwtTokenUtils
+import com.api.twinme.auth.repository.UserRepository
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.MethodParameter
@@ -12,6 +12,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 import org.springframework.web.filter.CorsFilter
 import org.springframework.web.method.support.HandlerMethodArgumentResolver
 import org.springframework.web.method.support.ModelAndViewContainer
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport
 
 @Configuration
@@ -39,6 +40,16 @@ class WebMvcConfig(
         argumentResolvers.add(
             AuthenticationTokenResolver(jwtTokenUtils, userRepository)
         )
+    }
+
+    override fun addResourceHandlers(
+        registry: ResourceHandlerRegistry
+    ) {
+        registry.addResourceHandler("/swagger-ui.html**")
+            .addResourceLocations("classpath:/META-INF/resources/")
+
+        registry.addResourceHandler("/webjars/**")
+            .addResourceLocations("classpath:/META-INF/resources/webjars/")
     }
 
 }

@@ -1,4 +1,4 @@
-package com.api.twinme.rest.dto
+package com.api.twinme.auth.rest.dto
 
 data class SignUpRequest(
     val sub: String,

@@ -26,4 +26,6 @@ class JwtUser(
 
     override fun isEnabled(): Boolean = true
 
+    fun getId(): Long = id
+
 }

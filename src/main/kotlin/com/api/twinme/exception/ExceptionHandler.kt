@@ -1,6 +1,6 @@
 package com.api.twinme.exception
 
-import com.api.twinme.rest.dto.ErrorResponse
+import com.api.twinme.auth.rest.dto.ErrorResponse
 import org.slf4j.LoggerFactory
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity

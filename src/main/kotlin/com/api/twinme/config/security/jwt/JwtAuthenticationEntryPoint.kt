@@ -1,7 +1,7 @@
 package com.api.twinme.config.security.jwt
 
 import com.api.twinme.exception.ErrorCode
-import com.api.twinme.rest.dto.ErrorResponse
+import com.api.twinme.auth.rest.dto.ErrorResponse
 import com.google.gson.Gson
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType

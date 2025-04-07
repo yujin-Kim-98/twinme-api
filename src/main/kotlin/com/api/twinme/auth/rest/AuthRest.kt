@@ -1,10 +1,7 @@
-package com.api.twinme.rest
+package com.api.twinme.auth.rest
 
-import com.api.twinme.rest.dto.ExistUserResponse
-import com.api.twinme.rest.dto.SignInRequest
-import com.api.twinme.rest.dto.SignUpRequest
-import com.api.twinme.rest.dto.UserToken
-import com.api.twinme.service.AuthService
+import com.api.twinme.auth.rest.dto.*
+import com.api.twinme.auth.service.AuthService
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import org.springframework.http.HttpStatus
@@ -39,22 +36,22 @@ class AuthRest(
     @ApiOperation("회원가입")
     fun signUp(
         @RequestBody signUpRequest: SignUpRequest
-    ): ResponseEntity<UserToken> {
-        val userToken = authService.signUp(signUpRequest)
+    ): ResponseEntity<SignInResponse> {
+        val response = authService.signUp(signUpRequest)
         return ResponseEntity
             .status(HttpStatus.CREATED)
-            .body(userToken)
+            .body(response)
     }
 
     @PostMapping("/sign-in")
     @ApiOperation("로그인")
     fun signIn(
         @RequestBody signInRequest: SignInRequest
-    ): ResponseEntity<UserToken> {
-        val userToken = authService.signIn(signInRequest)
+    ): ResponseEntity<SignInResponse> {
+        val response = authService.signIn(signInRequest)
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(userToken)
+            .body(response)
     }
 
 }
