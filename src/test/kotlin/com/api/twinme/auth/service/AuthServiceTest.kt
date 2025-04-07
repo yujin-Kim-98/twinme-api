@@ -2,12 +2,14 @@ package com.api.twinme.auth.service
 
 import com.api.twinme.auth.domain.User
 import com.api.twinme.auth.repository.FakeUserRepository
+import com.api.twinme.auth.rest.dto.SignInRequest
 import com.api.twinme.auth.rest.dto.SignInResponse
 import com.api.twinme.auth.rest.dto.SignUpRequest
 import com.api.twinme.auth.utils.JwtTokenUtils
 import com.api.twinme.config.security.jwt.JwtUserDetailsService
 import com.api.twinme.entity.Provider
 import com.api.twinme.exception.ExistUserException
+import com.api.twinme.exception.NotFoundUserException
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
@@ -113,6 +115,33 @@ class AuthServiceTest(
             }
         }
 
+    }
+
+    Given("로그인") {
+        When("존재하지 않는 회원이면") {
+            val request = SignInRequest(
+                sub = "123465",
+                provider = Provider.GOOGLE.name
+            )
+            Then("NotFoundUserException을 throw한다.") {
+                shouldThrow<NotFoundUserException> {
+                    authService.signIn(request)
+                }
+            }
+        }
+
+        When("존재하는 회원이면") {
+            val request = SignInRequest(
+                sub = "1234",
+                provider = Provider.GOOGLE.name
+            )
+
+            val response = authService.signIn(request)
+            Then("로그인 정보와 JWT 토큰을 발급한다.") {
+                response.userInfo.id shouldBe 1L
+                response.userInfo.nickname shouldBe "유찌"
+            }
+        }
     }
 
 })
