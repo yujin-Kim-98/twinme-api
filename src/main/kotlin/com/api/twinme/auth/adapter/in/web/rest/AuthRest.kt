@@ -39,8 +39,8 @@ class AuthRest(
     fun signUp(
         @RequestBody request: SignUpRequest
     ): ResponseEntity<UserTokenResponse> {
-        val command = request.toCommand()
-        val userToken = authUseCase.signUp(command)
+        val signUpCommand = request.toCommand()
+        val userToken = authUseCase.signUp(signUpCommand)
         val response = userToken.toUserTokenResponse()
 
         return ResponseEntity

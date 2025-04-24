@@ -1,12 +1,17 @@
 package com.api.twinme.auth.infra.jwt
 
+import com.api.twinme.auth.domain.model.UserToken
+import com.api.twinme.auth.domain.port.out.TokenGeneratePort
 import com.api.twinme.common.config.security.jwt.JwtUser
+import com.api.twinme.user.domain.model.User
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.stereotype.Component
+import java.security.MessageDigest
 import java.util.*
 import java.util.function.Function
 
@@ -15,10 +20,28 @@ class JwtTokenUtils(
     @Value("\${jwt.secret}") private val secretKey: String,
     @Value("\${jwt.token-expiration}") private val tokenExpiration: Long,
     @Value("\${jwt.refresh-token-expiration}") private val refreshTokenExpiration: Long,
-) {
+    private val userDetailsService: UserDetailsService
+): TokenGeneratePort {
 
     companion object {
         const val header = "Authorization"
+    }
+
+    override fun generateToken(
+        user: User
+    ): UserToken {
+        val jwtUser = userDetailsService.loadUserByUsername(user.hashedSub) as JwtUser
+        return UserToken(
+            accessToken = generateToken(user.hashedSub, jwtUser),
+            refreshToken = generateRefreshToken(user.hashedSub, jwtUser)
+        )
+    }
+
+    override fun hashWithSHA256(
+        input: String
+    ): String {
+        val bytes = MessageDigest.getInstance("SHA-256").digest(input.toByteArray())
+        return bytes.joinToString("") { "%02x".format(it) }
     }
 
     fun getSubFromToken(
