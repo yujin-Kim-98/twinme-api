@@ -2,13 +2,14 @@ package com.api.twinme.common.config.security.jwt
 
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
+import java.time.LocalDate
 
 class JwtUser(
     private val id: Long,
     private val sub: String,
     private val nickname: String,
     private val email: String,
-    private val age: Int,
+    private val birthDate: LocalDate,
     private val authorities: MutableList<out GrantedAuthority>
 ): UserDetails {
 

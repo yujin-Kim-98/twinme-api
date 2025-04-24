@@ -3,6 +3,7 @@ package com.api.twinme.user.adapter.out.persistence
 import com.api.twinme.common.entity.AbstractBaseAuditEntity
 import com.api.twinme.user.domain.model.Provider
 import com.api.twinme.user.domain.model.User
+import java.time.LocalDate
 import javax.persistence.*
 
 @Entity
@@ -26,7 +27,8 @@ class UserEntity(
 
     val nickname: String,
 
-    val age: Int,
+    @Column(name = "birth_date")
+    val birthDate: LocalDate
 
 ): AbstractBaseAuditEntity() {
 
@@ -40,7 +42,7 @@ class UserEntity(
                 hashedSub = user.hashedSub,
                 email = user.email,
                 nickname = user.nickname,
-                age = user.age
+                birthDate = user.birthDate
             )
         }
     }
@@ -52,7 +54,7 @@ class UserEntity(
         hashedSub = this.hashedSub,
         email = this.email,
         nickname = this.nickname,
-        age = this.age
+        birthDate = this.birthDate
     )
 
 }

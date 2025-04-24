@@ -14,7 +14,7 @@ class JwtUserFactory {
                 sub = user.hashedSub,
                 nickname = user.nickname,
                 email = user.email,
-                age = user.age,
+                birthDate = user.birthDate,
                 authorities = mapToGrantedAuthorities()
             )
         }

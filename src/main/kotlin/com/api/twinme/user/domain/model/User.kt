@@ -1,6 +1,7 @@
 package com.api.twinme.user.domain.model
 
 import com.api.twinme.common.exception.NotFoundProviderException
+import java.time.LocalDate
 
 class User(
     val id: Long? = -1L,
@@ -9,7 +10,7 @@ class User(
     val hashedSub: String,
     val email: String,
     val nickname: String,
-    val age: Int
+    val birthDate: LocalDate
 ) {
 
 }
