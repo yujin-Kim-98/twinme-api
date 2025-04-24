@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    val kotlinVersion = "1.5.31"
+    val kotlinVersion = "1.9.22"
     val springBootVersion = "2.5.7"
 
     id("org.springframework.boot") version springBootVersion
@@ -41,6 +41,9 @@ dependencies {
     implementation("io.springfox:springfox-swagger-ui:2.9.2")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+
+    // MCP
+    implementation("io.modelcontextprotocol:kotlin-sdk:0.4.0")
 
     api("com.google.code.gson:gson:2.8.5")
 
