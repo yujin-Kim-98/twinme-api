@@ -1,4 +1,4 @@
-package com.api.twinme.user.adapter.out.persistence
+package com.api.twinme.user.adapter.out.persistence.entity
 
 import com.api.twinme.common.entity.AbstractBaseAuditEntity
 import com.api.twinme.user.domain.model.Provider

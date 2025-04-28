@@ -18,8 +18,6 @@ class AuthRest(
     private val authUseCase: AuthUseCase
 ) {
 
-    // TODO : Refresh Token Redis 저장
-
     @GetMapping("/exist")
     @ApiOperation("존재하는 회원인지 체크")
     fun checkExist(

@@ -41,6 +41,7 @@ dependencies {
     implementation("io.springfox:springfox-swagger-ui:2.9.2")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("org.springframework.boot:spring-boot-starter-data-redis")
 
     // MCP
     implementation("io.modelcontextprotocol:kotlin-sdk:0.4.0")

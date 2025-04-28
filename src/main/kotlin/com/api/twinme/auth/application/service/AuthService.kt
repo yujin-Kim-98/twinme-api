@@ -3,6 +3,7 @@ package com.api.twinme.auth.application.service
 import com.api.twinme.auth.application.command.*
 import com.api.twinme.auth.application.usecase.AuthUseCase
 import com.api.twinme.auth.domain.model.UserToken
+import com.api.twinme.auth.domain.port.out.AuthCachePort
 import com.api.twinme.auth.domain.port.out.TokenGeneratePort
 import com.api.twinme.auth.infra.jwt.JwtTokenUtils
 import com.api.twinme.common.config.security.jwt.JwtUser
@@ -19,8 +20,9 @@ import java.security.MessageDigest
 @Service
 class AuthService(
     private val passwordEncoder: PasswordEncoder,
-    private val tokenGeneratePort: TokenGeneratePort,
     private val userRepository: UserRepository,
+    private val tokenGeneratePort: TokenGeneratePort,
+    private val authCachePort: AuthCachePort
 ): AuthUseCase {
 
     override fun checkExistUser(
@@ -49,7 +51,9 @@ class AuthService(
                     hashedSub = hashedSub
                 )
                 user = userRepository.save(user)
-                return tokenGeneratePort.generateToken(user)
+                val userToken = tokenGeneratePort.generateToken(user)
+                authCachePort.saveRefreshToken(user, userToken)
+                return userToken
             }
         }
     }
@@ -63,7 +67,9 @@ class AuthService(
             hashedSub,
             command.provider
         )?.let { user ->
-            return tokenGeneratePort.generateToken(user)
+            val userToken = tokenGeneratePort.generateToken(user)
+            authCachePort.saveRefreshToken(user, userToken)
+            return userToken
         } ?: throw NotFoundUserException()
     }
 
