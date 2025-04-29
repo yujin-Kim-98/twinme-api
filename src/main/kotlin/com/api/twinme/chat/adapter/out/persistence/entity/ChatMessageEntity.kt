@@ -1,6 +1,7 @@
-package com.api.twinme.chat.entity
+package com.api.twinme.chat.adapter.out.persistence.entity
 
-import com.api.twinme.chat.domain.ChatMessage
+import com.api.twinme.chat.domain.model.ChatMessage
+import com.api.twinme.chat.domain.model.Sender
 import com.api.twinme.common.entity.AbstractBaseAuditEntity
 import javax.persistence.*
 
@@ -16,7 +17,7 @@ class ChatMessageEntity(
     val userId: Long,
 
     @Enumerated(EnumType.STRING)
-    val sender: ChatSender,
+    val sender: Sender,
 
     val content: String
 
@@ -27,9 +28,4 @@ class ChatMessageEntity(
         sender = this.sender,
         content = this.content
     )
-}
-
-enum class ChatSender {
-    USER,
-    BOT
 }

@@ -1,6 +1,6 @@
-package com.api.twinme.chat.repository
+package com.api.twinme.chat.domain.port.out
 
-import com.api.twinme.chat.domain.ChatMessage
+import com.api.twinme.chat.domain.model.ChatMessage
 
 interface ChatMessageRepository {
 
@@ -10,7 +10,7 @@ interface ChatMessageRepository {
 
     fun findAllTop20ByUserIdAndIdLessThanOrderByCreatedAtDesc(
         userId: Long,
-        cursor: Long
+        cursor: Long?
     ): List<ChatMessage>
 
 }
